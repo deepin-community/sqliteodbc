@@ -1,0 +1,118 @@
+From: Lionel Elie Mamane <lmamane@debian.org>
+Date: Mon, 4 Jul 2016 11:13:17 +0200
+Subject: Install ODBC driver in /usr/lib/odbc and SQlite3 extensions in
+ /usr/lib
+
+---
+ Makefile.in | 35 ++++++++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 15 deletions(-)
+
+Index: sqliteodbc/Makefile.in
+===================================================================
+--- sqliteodbc.orig/Makefile.in
++++ sqliteodbc/Makefile.in
+@@ -67,27 +67,27 @@ libsqlite4odbc.la:	sqlite4odbc.lo $(SQLI
+ libsqlite3_mod_blobtoxy.la:	blobtoxy.lo
+ 		$(LIBTOOL) --mode=link $(CC) $(CFLAGS) \
+ 		    -o libsqlite3_mod_blobtoxy.la \
+-		    blobtoxy.lo -rpath $(drvdir) -release $(VER_INFO)
++		    blobtoxy.lo -rpath $(libdir) -release $(VER_INFO)
+ 
+ libsqlite3_mod_impexp.la:	impexp.lo
+ 		$(LIBTOOL) --mode=link $(CC) $(CFLAGS) \
+ 		    -o libsqlite3_mod_impexp.la \
+-		    impexp.lo -rpath $(drvdir) -release $(VER_INFO)
++		    impexp.lo -rpath $(libdir) -release $(VER_INFO)
+ 
+ libsqlite3_mod_csvtable.la:	csvtable.lo
+ 		$(LIBTOOL) --mode=link $(CC) $(CFLAGS) \
+ 		    -o libsqlite3_mod_csvtable.la \
+-		    csvtable.lo -rpath $(drvdir) -release $(VER_INFO)
++		    csvtable.lo -rpath $(libdir) -release $(VER_INFO)
+ 
+ libsqlite3_mod_zipfile.la:	zipfile.lo
+ 		$(LIBTOOL) --mode=link $(CC) $(CFLAGS) \
+ 		    -o libsqlite3_mod_zipfile.la \
+-		    zipfile.lo -rpath $(drvdir) -release $(VER_INFO) -lz
++		    zipfile.lo -rpath $(libdir) -release $(VER_INFO) -lz
+ 
+ libsqlite3_mod_xpath.la:	xpath.lo
+ 		$(LIBTOOL) --mode=link $(CC) $(CFLAGS) \
+ 		    -o libsqlite3_mod_xpath.la \
+-		    xpath.lo -rpath $(drvdir) -release $(VER_INFO) $(XML2_LIBS)
++		    xpath.lo -rpath $(libdir) -release $(VER_INFO) $(XML2_LIBS)
+ 
+ sqliteodbc.lo:	sqliteodbc.c sqliteodbc.h
+ 		$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -c \
+@@ -137,6 +137,7 @@ xpath.lo:	xpath.c
+ 		    $(SQLITE3_FLAGS) $(XML2_FLAGS) xpath.c
+ 
+ install-2:	libsqliteodbc.la
++		install -d $(DESTDIR)$(drvdir)
+ 		$(LIBTOOL) --mode=install $(INSTALL) \
+ 		    libsqliteodbc.la $(DESTDIR)$(drvdir)
+ 
+@@ -153,42 +154,45 @@ uninstall-2:
+ 
+ install-3:	libsqlite3odbc.la @EXT_BLOBTOXY@ @EXT_IMPEXP@ \
+ 		@EXT_CSVTABLE@ @EXT_ZIPFILE@ @EXT_XPATH@
++		install -d $(DESTDIR)$(drvdir)
+ 		$(LIBTOOL) --mode=install $(INSTALL) \
+ 		    libsqlite3odbc.la $(DESTDIR)$(drvdir)
++		install -d $(DESTDIR)$(libdir)
+ 		test -z "@EXT_BLOBTOXY@" || \
+ 		    $(LIBTOOL) --mode=install $(INSTALL) \
+-		    @EXT_BLOBTOXY@ $(DESTDIR)$(drvdir)
++		    @EXT_BLOBTOXY@ $(DESTDIR)$(libdir)
+ 		test -z "@EXT_IMPEXP@" || \
+ 		    $(LIBTOOL) --mode=install $(INSTALL) \
+-		    @EXT_IMPEXP@ $(DESTDIR)$(drvdir)
++		    @EXT_IMPEXP@ $(DESTDIR)$(libdir)
++
+ 		test -z "@EXT_CSVTABLE@" || \
+ 		    $(LIBTOOL) --mode=install $(INSTALL) \
+-		    @EXT_CSVTABLE@ $(DESTDIR)$(drvdir)
++		    @EXT_CSVTABLE@ $(DESTDIR)$(libdir)
+ 		test -z "@EXT_ZIPFILE@" || \
+ 		    $(LIBTOOL) --mode=install $(INSTALL) \
+-		    @EXT_ZIPFILE@ $(DESTDIR)$(drvdir)
++		    @EXT_ZIPFILE@ $(DESTDIR)$(libdir)
+ 		test -z "@EXT_XPATH@" || \
+ 		    $(LIBTOOL) --mode=install $(INSTALL) \
+-		    @EXT_XPATH@ $(DESTDIR)$(drvdir)
++		    @EXT_XPATH@ $(DESTDIR)$(libdir)
+ 
+ uninstall-3:
+ 		$(LIBTOOL) --mode=uninstall \
+ 		    $(RM) $(DESTDIR)$(drvdir)/libsqlite3odbc.la
+ 		test -z "@EXT_BLOBTOXY@" || \
+ 		    $(LIBTOOL) --mode=uninstall \
+-		        $(RM) $(DESTDIR)$(drvdir)/@EXT_BLOBTOXY@
++		        $(RM) $(DESTDIR)$(libdir)/@EXT_BLOBTOXY@
+ 		test -z "@EXT_IMPEXP@" || \
+ 		    $(LIBTOOL) --mode=uninstall \
+-		        $(RM) $(DESTDIR)$(drvdir)/@EXT_IMPEXP@
++		        $(RM) $(DESTDIR)$(libdir)/@EXT_IMPEXP@
+ 		test -z "@EXT_CSVTABLE@" || \
+ 		    $(LIBTOOL) --mode=uninstall \
+-		        $(RM) $(DESTDIR)$(drvdir)/@EXT_CSVTABLE@
++		        $(RM) $(DESTDIR)$(libdir)/@EXT_CSVTABLE@
+ 		test -z "@EXT_ZIPFILE@" || \
+ 		    $(LIBTOOL) --mode=uninstall \
+-		        $(RM) $(DESTDIR)$(drvdir)/@EXT_ZIPFILE@
++		        $(RM) $(DESTDIR)$(libdir)/@EXT_ZIPFILE@
+ 		test -z "@EXT_XPATH@" || \
+ 		    $(LIBTOOL) --mode=uninstall \
+-		        $(RM) $(DESTDIR)$(drvdir)/@EXT_XPATH@
++		        $(RM) $(DESTDIR)$(libdir)/@EXT_XPATH@
+ 
+ drvinst-3:	install-3
+ 		sh drvdsninst.sh SQLITE3 "SQLite3 Datasource" \
+@@ -199,6 +203,7 @@ drvuninst-3:	uninstall-3
+ 
+ 
+ install-4:	libsqlite4odbc.la
++		install -d $(DESTDIR)$(drvdir)
+ 		$(LIBTOOL) --mode=install $(INSTALL) \
+ 		    libsqlite4odbc.la $(DESTDIR)$(drvdir)
+ 

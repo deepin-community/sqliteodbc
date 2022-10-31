@@ -1,0 +1,4 @@
+# SQLite 3 loadable extension module, not a normal shared library
+libsqlite3-mod-csvtable: link-to-shared-library-in-wrong-package
+libsqlite3-mod-csvtable: no-symbols-control-file
+libsqlite3-mod-csvtable: package-name-doesnt-match-sonames

@@ -1,0 +1,2 @@
+debian/unixodbc.ini /usr/share/sqliteodbc
+usr/lib/*/odbc/*.so*

@@ -1,0 +1,21 @@
+From: Lionel Elie Mamane <lmamane@debian.org>
+Date: Mon, 4 Jul 2016 11:13:17 +0200
+Subject: Obey all necessary FOOFLAGS in Makefile
+
+---
+ Makefile.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 1e49b76..b9bc38f 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -7,7 +7,7 @@ drvdir =	$(libdir)@DRVDIR@
+ CC =		@CC@
+ INSTALL =	@INSTALL@
+ LIBTOOL =	./libtool
+-CFLAGS=		@CFLAGS@ -DDRIVER_VER_INFO=\"@VER_INFO@\" @SQLITE3_A10N_FLAGS@
++CFLAGS=		@CFLAGS@ @CPPFLAGS@ @LDFLAGS@ -DDRIVER_VER_INFO=\"@VER_INFO@\" @SQLITE3_A10N_FLAGS@
+ SQLITE_INC =	@SQLITE_INC@
+ SQLITE_LIB =	@SQLITE_LIB@
+ SQLITE_FLAGS =	-DHAVE_LIBVERSION=@SQLITE_LIBVERSION@ \

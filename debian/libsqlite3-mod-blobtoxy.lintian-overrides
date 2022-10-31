@@ -1,0 +1,4 @@
+# SQLite 3 loadable extension module, not a normal shared library
+libsqlite3-mod-blobtoxy: link-to-shared-library-in-wrong-package
+libsqlite3-mod-blobtoxy: no-symbols-control-file
+libsqlite3-mod-blobtoxy: package-name-doesnt-match-sonames

@@ -1,0 +1,3 @@
+version=3
+
+http://www.ch-werner.de/sqliteodbc/ sqliteodbc-(.*)\.tar\.gz

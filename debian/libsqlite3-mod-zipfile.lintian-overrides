@@ -1,0 +1,4 @@
+# SQLite 3 loadable extension module, not a normal shared library
+libsqlite3-mod-zipfile: link-to-shared-library-in-wrong-package
+libsqlite3-mod-zipfile: no-symbols-control-file
+libsqlite3-mod-zipfile: package-name-doesnt-match-sonames

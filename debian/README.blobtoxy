@@ -1,0 +1,175 @@
+SQLite extension module for read-only BLOB to X/Y mapping
+using SQLite 3.3.x virtual table API plus some useful
+scalar and aggregate functions.
+
+$Id: blobtoxy.c,v 1.17 2011/07/04 05:43:59 chw Exp chw $
+
+Copyright (c) 2007-2011 Christian Werner <chw@ch-werner.de>
+
+See the file "copyright" for information on usage
+and redistribution of this file and for a
+DISCLAIMER OF ALL WARRANTIES.
+
+Usage:
+
+ Master (non-virtual) table:
+
+  CREATE TABLE t(
+    key INTEGER PRIMARY KEY,
+    data BLOB,
+    scale DOUBLE,
+    offset DOUBLE,
+    foo TEXT,
+    bar TEXT
+  );
+
+ BLOB to X/Y mapping:
+
+  CREATE VIRTUAL TABLE t1
+    USING blobtoxy (t, key, data, short_le, x_scale, x_offset,
+                    y_scale, y_offset, "foo, bar");
+  CREATE VIRTUAL TABLE t2
+    USING blobtoxy (t, key, data, uchar, null, null, null, null, 'bar');
+  CREATE VIRTUAL TABLE t3
+    USING blobtoxy (t, key, data, int_be, 10.0, null, 10.0, null, "foo");
+  CREATE VIRTUAL TABLE t4
+    USING blobtoxy (t, key, data, float, null, -10, null, 10);
+
+ Arguments to "blobtoxy" module:
+
+ 0. master table name (required)
+ 1. key column in master table (required)
+ 2. blob column in master table (required)
+ 3. type code (optional), defaults to "char"
+ 4. X scale column in master table (optional),
+    may be specified as integer or float constant, too,
+    to explicitely omit scale, use an empty string ('')
+    or 'null'
+ 5. X offset column in master table (optional),
+    may be specified as integer or float constant, too,
+    to explicitely omit offset, use an empty string ('')
+    or 'null'
+ 6. Y scale column in master table (optional), see point 4.
+ 7. Y offset column in master table (optional), see point 5.
+ 8. other columns of the master table to appear in the
+    result set (optional), must be specified as a
+    single or double quoted string with comma
+    separated column names as a sequence of named
+    columns as it would be written in a SELECT
+    statement
+
+ Supported data types:
+
+ "char"       -> BLOB is a signed char array
+ "uchar"      -> BLOB is an unsigned char array
+ "short_le"   -> BLOB is a short array little endian
+ "short_be"   -> BLOB is a short array big endian
+ "ushort_le"  -> BLOB is an unsigned short array little endian
+ "ushort_be"  -> BLOB is an unsigned short array big endian
+ "int_le"     -> BLOB is a int array little endian
+ "int_be"     -> BLOB is a int array big endian
+ "uint_le"    -> BLOB is an unsigned int array little endian
+ "uint_be"    -> BLOB is an unsigned int array big endian
+ "float"      -> BLOB is a float array
+ "double"     -> BLOB is a double array
+
+ Columns of "blobtoxy" mapped virtual table:
+
+  "key"   Key column for JOINing with master table
+  "x"     index within BLOB.
+          This value is optionally translated by
+          the "x_scale" and "x_offset" columns
+          i.e. x' = x * x_scale + x_offset, yielding
+          a floating point result.
+  "y"     BLOB's value at "x"-unscaled-index
+          This value is optionally translated by
+          the "y_scale" and "y_offset" columns
+          i.e. y' = y * y_scale + y_offset, yielding
+          a floating point result.
+  ...     Other columns, see above
+
+  If the "key" field of the master table is an integer data
+  type, it is used as the ROWID of the mapped virtual table.
+  Otherwise the ROWID is a 0-based counter of the output rows.
+
+
+Exported SQLite functions (svg|tk)_path[_from_blob], blt_vec_(x|y)
+
+ Scalar context:
+
+   svg_path_from_blob(data, type, x_scale, x_offset, y_scale, y_offset)
+    tk_path_from_blob(data, type, x_scale, x_offset, y_scale, y_offset)
+        blt_vec_(x|y)(data, type, x_scale, x_offset, y_scale, y_offset)
+  tk3d_path_from_blob(data, type, x_scale, x_offset, y_scale, y_offset,
+                      z_value, z_scale, z_offset)
+
+  Like BLOB to X/Y mapping but produces SVG or Tk Canvas
+  path/polyline as a string, e.g.
+
+   SVG:          "M 1 1 L 2 2 L 3 7 L 4 1
+   Tk Canvas:    "1 1 2 2 3 7 4 1"
+   BLT Vector X: "1 2 3 4"
+   BLT Vector Y: "1 2 7 1"
+   Tk 3D Canvas: "1 1 0 2 2 0 3 7 0 4 1 0"
+
+  Arguments:
+
+  0. blob data (required); this parameter is always
+     interpreted as blob. It must contain at least
+     two elements, otherwise the function's result
+     is NULL to indicate that nothing need be drawn
+  1. type code (optional), defaults to "char"
+  2. X scale (optional), see above
+  3. X offset (optional), see above
+  4. Y scale (optional), see above
+  5. Y offset (optional), see above
+  6. Z value (optional)
+  8. Z scale (optional)
+  9. Z offset (optional)
+
+ Aggregate context:
+
+   svg_path(xdata, ydata, x_scale, x_offset, y_scale, y_offset)
+    tk_path(xdata, ydata, x_scale, x_offset, y_scale, y_offset)
+    blt_vec(data, scale, offset)
+  tk3d_path(xdata, ydata, x_scale, x_offset, y_scale, y_offset,
+            zdata, z_scale, z_offset)
+
+  Same behaviour except that xdata/ydata/data/zdata are interpreted
+  directly as numeric values.
+
+
+Exported SQLite function subblob
+
+  subblob(data, start, length, size, skip)
+
+ Works somewhat like substr, e.g.
+
+  select quote(subblob(X'0A0B0C0D0E0F0001',2,2,1,3))
+  -> X'0B0F'
+
+ Arguments:
+
+ 0. blob data (required); this parameter is always
+    interpreted as blob.
+ 1. start offset (required) in bytes as in substr
+    function (1-based, negative offsets count from end)
+ 2. length (required) in bytes to be copied
+ 3. size (optional) of items in bytes to be copied
+    in combination with skip argument
+ 4. skip (optional) in bytes after one item of
+    size argument has been copied
+
+
+Exported SQLite function rownumber
+
+  rownumber(any)
+
+ Returns the row number counting from 0 in simple
+ selects. An arbitrary dummy but constant argument
+ must be provided to this function in order to satisfy
+ some needs of the SQLite3 C API, e.g.
+
+  rownumber(0), rownumber('foo')  right
+  rownumber(column_name)          wrong, will yield always 0
+

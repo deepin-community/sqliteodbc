@@ -1,0 +1,204 @@
+sqliteodbc (0.9998-2) unstable; urgency=medium
+
+  * Update overridden tag name non-dev-pkg-with-shlib-symlink
+  * Treat dbgsym migration as completed
+  * d/control: Set Rules-Requires-Root: no
+  * Update dh compat to 13
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Sat, 29 Aug 2020 22:11:06 +0000
+
+sqliteodbc (0.9998-1) unstable; urgency=medium
+
+  * New upstream version 0.9998
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Fri, 17 Jul 2020 10:47:18 +0000
+
+sqliteodbc (0.9996-3) unstable; urgency=medium
+
+  * Refresh patch: no-distro-work
+  * Refresh patch: lib-location
+  * Use pkg-config to find libxml2 (Closes: #949500)
+  * Bump Standards Version to 4.5.0
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 21 Jan 2020 23:43:44 +0000
+
+sqliteodbc (0.9996-2) unstable; urgency=medium
+
+  * Use debhelper compat v12
+  * Remove now unnecessary Build-Depends: dh-autoreconf
+  * Bump Standards-Version to 4.4.1
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Wed, 16 Oct 2019 22:10:19 +0000
+
+sqliteodbc (0.9996-1) unstable; urgency=medium
+
+  * Bump Standards-Version to 4.1.5
+  * d/control: Update Vcs- URIs to salsa.d.o
+  * New upstream version 0.9996
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Mon, 23 Jul 2018 07:44:48 +0000
+
+sqliteodbc (0.9995-1) unstable; urgency=medium
+
+  * New upstream version 0.9995
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Fri, 02 Dec 2016 17:49:54 +0000
+
+sqliteodbc (0.9994-1) unstable; urgency=medium
+
+  * New Upstream version (Closes: #829514)
+  * Set myself as Maintainer, thanks to Lionel for maintaining this in
+    the past. (Closes: #807106)
+  * Switch to dh style packaging
+  * Set Vcs-Git, Vcs-Browser, Homepage
+  * Drop explicit -dbg package, rely on automatic -dbgsym packages
+  * Drop versioned dpkg-dev build-dep, satisfied in stable
+  * Filter debian/ when importing new upstream binaries
+  * Update Standards-Version to 3.9.8
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Mon, 04 Jul 2016 11:25:39 +0200
+
+sqliteodbc (0.9992-0.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * New upstream version. (Closes: #771669, #805581)
+  * Use dh-autoreconf to autoreconf instead of shipping a huge patch.
+
+ -- Christian Hofstaedtler <zeha@debian.org>  Sat, 05 Dec 2015 11:33:14 +0000
+
+sqliteodbc (0.999-1) unstable; urgency=low
+
+  * New upstream release
+  * Provide -dbg package
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Mon, 01 Dec 2014 14:12:41 +0100
+
+sqliteodbc (0.992-2) unstable; urgency=low
+
+  * Mark packages Multi-Arch:same
+  * Build-Depend on zlib -dev package
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Fri, 24 May 2013 23:04:15 +0200
+
+sqliteodbc (0.992-1) unstable; urgency=low
+
+  * New upstream release
+  * Upgrade to Standards-Version 3.9.4
+  * Upgrade to debhelper level 9
+  * Ensure fortify flags are used
+  * Convert to multiarch
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Wed, 22 May 2013 05:43:23 +0200
+
+sqliteodbc (0.91-3) unstable; urgency=low
+
+  * Correct path/filename for sqlite3 loadable extensions documentation
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Sun, 10 Jul 2011 16:53:34 +0200
+
+sqliteodbc (0.91-2) unstable; urgency=low
+
+  * Typo in bug number in previous changelog entry
+  * sqlite3 loadable extensions:
+    manually extract documentation from source code comments.
+  * Override lintian warnings that need to be
+    (package name for loadable extensions is not soname).
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Sun, 10 Jul 2011 16:06:05 +0200
+
+sqliteodbc (0.91-1) unstable; urgency=low
+
+  * New upstream release
+  * Bump up Standards-Version to 3.9.2
+  * Move to debhelper level 8
+  * Remove unneeded .la file (Closes: #633256).
+  * sqlite3 loadable extensions should not be installed in /usr/lib/odbc
+  * sqlite3 loadable extensions separated into different binary packages
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Sat, 09 Jul 2011 22:21:50 +0200
+
+sqliteodbc (0.89-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Wed, 30 Mar 2011 13:31:44 +0200
+
+sqliteodbc (0.88-1) unstable; urgency=low
+
+  * New upstream release
+    - Refreshed patches
+  * Rerun libtoolize & friends, which gets rid of rpath
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Mon, 03 Jan 2011 16:24:08 +0100
+
+sqliteodbc (0.87-2) unstable; urgency=low
+
+  * Update libtool & friends (closes: #570246)
+  * Add myself to Uploaders with permission of maintainer
+  * Split quilt patch into one-patch-per-feature series
+  * Don't recreate spec file: unused on Debian,
+    pollutes diff with ever-changing timestamp
+    that changes result of rebuilds.
+  * Enable parallel builds
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Tue, 07 Dec 2010 00:00:09 +0100
+
+sqliteodbc (0.87-1) unstable; urgency=low
+
+  * Bump Standards-Version to 3.9.1
+  * Integrate fixes from Lionel Mamane (thanks!)
+  * Switch to dpkg-source 3.0 (quilt) format
+
+ -- Sam Clegg <samo@debian.org>  Mon, 06 Dec 2010 08:24:27 -0800
+
+sqliteodbc (0.87-0.2) unstable; urgency=low
+
+  * Add watch file
+  * lintian-clean
+    - Use "©", not "(c)", in copyright file
+    - Take advantage of inheritance in debian/control
+    - Add ${misc:Depends} to Depends line
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Sun, 05 Dec 2010 09:18:48 +0100
+
+sqliteodbc (0.87-0.1) unstable; urgency=low
+
+  * New upstream release (closes: #605970)
+    - Adapt to prototype change in unixodbc for SQLSetStmtOption (closes: #577381)
+    - Fix segfault with OpenOffice.org (closes: #605972)
+    - Restore compatibility with erlang ODBC (closes: #602342)
+  * Unregister both drivers on removal (closes: #605971)
+
+ -- Lionel Elie Mamane <lmamane@debian.org>  Sat, 04 Dec 2010 23:22:16 +0100
+
+sqliteodbc (0.80-1) unstable; urgency=low
+
+  * New upstream release (Closes: #516367)
+
+ -- Sam Clegg <samo@debian.org>  Sat, 21 Feb 2009 10:24:18 +0000
+
+sqliteodbc (0.70-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Sam Clegg <samo@debian.org>  Fri,  1 Sep 2006 08:10:39 +0100
+
+sqliteodbc (0.69-3) unstable; urgency=low
+
+  * apply patch to fix build on 64-bit archs
+    (Closes: #381668).  Thanks to Andreas Jochens for
+    that patch.
+
+ -- Sam Clegg <samo@debian.org>  Fri,  1 Sep 2006 08:05:36 +0100
+
+sqliteodbc (0.69-2) unstable; urgency=low
+
+  * debian/control: add unixodbc-dev to build-depends (Closes: #381138)
+
+ -- Sam Clegg <samo@debian.org>  Thu,  3 Aug 2006 10:38:07 +0100
+
+sqliteodbc (0.69-1) unstable; urgency=low
+
+  * Initial release (Closes: #298866, #298866)
+
+ -- Sam Clegg <samo@debian.org>  Tue, 25 Jul 2006 11:43:45 +0100

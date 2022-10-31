@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+if which odbcinst >/dev/null 2>&1; then
+  odbcinst -u -d -n SQLITE
+  odbcinst -u -d -n SQLITE3
+fi
+
+#DEBHELPER#

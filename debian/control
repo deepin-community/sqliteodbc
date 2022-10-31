@@ -1,0 +1,84 @@
+Source: sqliteodbc
+Priority: optional
+Maintainer: Chris Hofstaedtler <zeha@debian.org>
+Uploaders: Lionel Elie Mamane <lmamane@debian.org>
+Build-Depends: debhelper-compat (= 13),
+               libsqlite3-dev,
+               libxml2-dev,
+               pkg-config,
+               unixodbc-dev,
+               zlib1g-dev | libz-dev
+Standards-Version: 4.5.0
+Rules-Requires-Root: no
+Section: libs
+Vcs-Browser: https://salsa.debian.org/debian/sqliteodbc
+Vcs-Git: https://salsa.debian.org/debian/sqliteodbc.git
+Homepage: http://www.ch-werner.de/sqliteodbc/
+
+Package: libsqliteodbc
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Suggests: unixodbc-bin
+Enhances: unixodbc
+Description: ODBC driver for SQLite embedded database
+ This package allows you to connect to an SQLite database using
+ ODBC, the Open Database Connectivity abstraction layer which is
+ understood by a variety of database tools that may not be able
+ to talk to SQLite directly.
+
+Package: libsqlite3-mod-blobtoxy
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Enhances: libsqlite3-0
+Description: SQLite3 extension module for read-only BLOB to X/Y mapping
+ This package extends SQLite3 with functions to automatically generate
+ X/Y graphs from BLOB data.
+
+Package: libsqlite3-mod-csvtable
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Enhances: libsqlite3-0
+Description: SQLite3 extension module for read-only access to CSV files
+ This package extends SQLite3 with read-only access to CSV (Comma-Separated
+ Values) format files; each CSV file will appear as a table in SQLite3.
+
+Package: libsqlite3-mod-impexp
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Enhances: libsqlite3-0
+Description: SQLite3 extension module for SQL script, XML, JSON and CSV import/export
+ This package extends SQLite3 with functions to import/export data
+ from/to SQL scripts and to export data to CSV (Comma-Separated
+ Values), XML and JSON (JavaScript Object Notation).
+ .
+ The export to SQL can follow quoting conventions of other SQL
+ databases: Oracle, SQL Server or MySQL.
+
+Package: libsqlite3-mod-xpath
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Enhances: libsqlite3-0
+Description: SQLite3 extension module for querying XML data with XPath
+ This package extends SQLite3 with functions to select a subpart
+ of an XML document using XPath.
+
+Package: libsqlite3-mod-zipfile
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Enhances: libsqlite3-0
+Description: SQLite3 extension module for read-only access to ZIP files
+ This package extends SQLite3 with read-only access to ZIP files.
+ ZIP is a combined archive and compression file format (think tar
+ and gzip rolled into one) that is pretty popular on some non-Unixy platforms.
